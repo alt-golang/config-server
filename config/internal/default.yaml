@@ -1,0 +1,10 @@
+server:
+  port: 80
+  context: "/"
+  mode: "debug"
+config:
+  dir: "config"
+logging:
+  format: "json"
+  level:
+    "/": "error"

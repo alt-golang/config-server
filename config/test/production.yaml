@@ -1,0 +1,4 @@
+default: default
+production: production
+p1: "enc.${p2}"
+p2: "GdRcVgLKeYr3g5kKvq4TF1ba7OkwsUTNgTGAQ1C/usQ="
