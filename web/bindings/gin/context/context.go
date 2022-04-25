@@ -4,22 +4,43 @@ import (
 	"fmt"
 	"github.com/alt-golang/config"
 	"github.com/alt-golang/config-server/service"
-	gin "github.com/alt-golang/config-server/web/bindings/gin"
+	"github.com/alt-golang/config-server/web/bindings/gin"
 	"github.com/alt-golang/logger"
 	g "github.com/gin-gonic/gin"
+	"os"
 	"strconv"
 )
 
-var cfg = config.GetConfigFromDir("config/internal")
-var dir, _ = config.GetWithDefault("config.dir", "config")
-var ConfigService = service.ConfigService{
-	Logger: logger.GetLogger("github.com/alt-golang/config-server/service/ConfigService"),
-	Dir:    dir.(string),
+func getCfgFlag() string {
+	var cfgFlag = ""
+	if len(os.Args) >= 3 {
+		cfgFlag = os.Args[2]
+	}
+	if cfgFlag == "" {
+		cfgFlag = "config" + fmt.Sprint(string(os.PathSeparator)) + "internal"
+	}
+	return cfgFlag
 }
 
-var port, _ = config.Get("server.port")
+var cfg = config.GetConfigFromDir(getCfgFlag())
+var dir, _ = config.GetWithDefault("config.dir", "config")
+var gitUrl, _ = config.GetWithDefault("git.url", "")
+var gitBranch, _ = config.GetWithDefault("git.branch", "main")
+var gitUser, _ = config.GetWithDefault("git.username", "")
+var gitToken, _ = config.GetWithDefault("git.token", "")
+
+var ConfigService = service.ConfigService{
+	Logger:      logger.GetLogger("github.com/alt-golang/config-server/service/ConfigService"),
+	Dir:         dir.(string),
+	GitUrl:      gitUrl.(string),
+	GitBranch:   gitBranch.(string),
+	GitUsername: gitUser.(string),
+	GitToken:    gitToken.(string),
+}
+
+var port, _ = config.GetWithDefault("server.port", "80")
 var portInt, _ = strconv.Atoi(fmt.Sprint(port))
-var mode, _ = config.Get("server.mode")
+var mode, _ = config.GetWithDefault("server.mode", "debug")
 
 var Server = gin.Server{
 	Logger:        logger.GetLogger("github.com/alt-golang/config-server/web/bindings/gin/Server"),
@@ -30,6 +51,7 @@ var Server = gin.Server{
 }
 
 func Start() {
+	ConfigService.Init()
 	g.SetMode(mode.(string))
 	Server.Engine = g.New()
 	Server.Init()

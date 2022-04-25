@@ -62,20 +62,43 @@ func (Server Server) Init() {
 
 	Server.Engine.GET("/", func(context *g.Context) {
 		Server.Logger.Info("GET /:" + fmt.Sprint(context.Request.Body))
-		context.IndentedJSON(200, Server.ConfigService.Get("", "", "", context.Query("path")))
+		result, err := Server.ConfigService.Get("", "", "", context.Query("path"))
+		Server.Response(context, result, err)
+
 	})
 	Server.Engine.GET("/:env", func(context *g.Context) {
 		Server.Logger.Info("GET /:" + fmt.Sprint(context.Request.Body))
-		context.IndentedJSON(200, Server.ConfigService.Get(context.Param("env"), "", "", context.Query("path")))
+		result, err := Server.ConfigService.Get(context.Param("env"), "", "", context.Query("path"))
+		Server.Response(context, result, err)
 	})
 	Server.Engine.GET("/:env/:instance", func(context *g.Context) {
 		Server.Logger.Info("GET /:" + fmt.Sprint(context.Request.Body))
-		context.IndentedJSON(200, Server.ConfigService.Get(context.Param("env"), context.Param("instance"), "", context.Query("path")))
+		result, err := Server.ConfigService.Get(context.Param("env"), context.Param("instance"), "", context.Query("path"))
+		Server.Response(context, result, err)
 	})
 	Server.Engine.GET("/:env/:instance/*profiles", func(context *g.Context) {
 		Server.Logger.Info("GET /:" + fmt.Sprint(context.Request.Body))
-		context.IndentedJSON(200, Server.ConfigService.Get(context.Param("env"), context.Param("instance"), strings.Replace(context.Param("profiles"), "/", ",", 0), context.Query("path")))
+		result, err := Server.ConfigService.Get(context.Param("env"), context.Param("instance"), strings.Replace(context.Param("profiles"), "/", ",", 0), context.Query("path"))
+		Server.Response(context, result, err)
 	})
+}
+
+func (Server Server) Response(context *g.Context, result interface{}, err error) {
+	fmt.Println(result)
+	if err == nil {
+		if result == nil {
+			if context.Query("default") != "" {
+				context.IndentedJSON(200, fmt.Sprint(context.Query("default")))
+			} else {
+				context.IndentedJSON(404, "Not Found")
+			}
+		} else {
+			context.IndentedJSON(200, result)
+		}
+
+	} else {
+		context.IndentedJSON(500, err)
+	}
 }
 
 func (Server Server) Run() {
