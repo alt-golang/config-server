@@ -3,8 +3,13 @@ server:
   context: "/"
   mode: "debug"
 config:
-  dir: "config"
+  dir: "../conf"
 logging:
   format: "json"
   level:
     "/": "error"
+#git:
+#  url: https://github.com/alt-golang/privateconf.git
+#  branch: publish
+#  username: cp
+#  token: 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
