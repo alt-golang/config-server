@@ -102,5 +102,6 @@ func (Server Server) Response(context *g.Context, result interface{}, err error)
 }
 
 func (Server Server) Run() {
-	Server.Engine.Run(fmt.Sprintf("127.0.0.1:%d", Server.Port))
+	err := Server.Engine.Run(fmt.Sprintf("127.0.0.1:%d", Server.Port))
+	Server.Logger.Fatal("Server (gin) failed to start: " + fmt.Sprint(err))
 }

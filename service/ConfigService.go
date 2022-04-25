@@ -36,7 +36,6 @@ func (configService *ConfigService) GitCloneAndCheckout() {
 			},
 		})
 		if err != nil {
-			fmt.Println(err)
 			if fmt.Sprint(err) != "repository already exists" {
 				configService.Logger.Error("Git Clone Failed: system startup exiting:" + fmt.Sprint(err))
 				os.Exit(1)
@@ -44,7 +43,6 @@ func (configService *ConfigService) GitCloneAndCheckout() {
 
 			configService.Logger.Info("Opening git repo at path: " + configService.Dir)
 			repo, err = git.PlainOpen(configService.Dir)
-			fmt.Println(err)
 		}
 		w, err := repo.Worktree()
 		branchName := plumbing.NewBranchReferenceName(configService.GitBranch)
@@ -57,7 +55,6 @@ func (configService *ConfigService) GitCloneAndCheckout() {
 			Force:  true,
 			Branch: branchRef.Name(),
 		})
-		fmt.Println(err)
 	}
 }
 

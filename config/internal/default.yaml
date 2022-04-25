@@ -1,9 +1,9 @@
 server:
-  port: 80
+  port: 8080
   context: "/"
-  mode: "debug"
+  mode: "release"
 config:
-  dir: "../conf"
+  dir: "config"
 logging:
   format: "json"
   level:
