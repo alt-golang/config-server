@@ -11,6 +11,7 @@ import (
 
 type Server struct {
 	Logger        logger.Logger
+	Host          string
 	Port          int
 	Context       string
 	Mode          string
@@ -102,6 +103,6 @@ func (Server Server) Response(context *g.Context, result interface{}, err error)
 }
 
 func (Server Server) Run() {
-	err := Server.Engine.Run(fmt.Sprintf(":%d", Server.Port))
+	err := Server.Engine.Run(fmt.Sprintf("%s:%d", Server.Host, Server.Port))
 	Server.Logger.Fatal("Server (gin) failed to start: " + fmt.Sprint(err))
 }

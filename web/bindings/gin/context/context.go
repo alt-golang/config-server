@@ -38,12 +38,15 @@ var ConfigService = service.ConfigService{
 	GitToken:    gitToken.(string),
 }
 
+var host, _ = config.GetWithDefault("server.host", "0.0.0.0")
+var hostStr = fmt.Sprint(host)
 var port, _ = config.GetWithDefault("server.port", "80")
 var portInt, _ = strconv.Atoi(fmt.Sprint(port))
 var mode, _ = config.GetWithDefault("server.mode", "debug")
 
 var Server = gin.Server{
 	Logger:        logger.GetLogger("github.com/alt-golang/config-server/web/bindings/gin/Server"),
+	Host:          hostStr,
 	Port:          portInt,
 	Context:       "",
 	Mode:          mode.(string),

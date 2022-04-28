@@ -1,3 +1,10 @@
+1.0.4 / 2022-04-28
+==================
+
+* Add server,host config - @craigparra
+* default without 0.0.0.0 - @craigparra
+
+
 1.0.3 / 2022-04-28
 ==================
 
