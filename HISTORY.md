@@ -1,3 +1,9 @@
+1.0.3 / 2022-04-28
+==================
+
+* bind without 127.0.0.1 - @craigparra
+* increment config to 1.0.6 - @craigparra
+
 1.0.2 / 2022-04-25
 ==================
 
