@@ -9,7 +9,7 @@ logging:
   level:
     "/": "error"
 #git:
-#  url: https://github.com/alt-golang/privateconf.git
+#  url: https://github.com/some-org/config.git
 #  branch: publish
-#  username: cp
-#  token: revoked
+#  username: SOME_TOKEN
+#  token: value

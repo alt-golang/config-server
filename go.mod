@@ -3,7 +3,7 @@ module github.com/alt-golang/config-server
 go 1.18
 
 require (
-	github.com/alt-golang/config v1.0.5
+	github.com/alt-golang/config v1.0.6
 	github.com/alt-golang/logger v1.0.4
 	github.com/gin-gonic/gin v1.7.7
 	gopkg.in/src-d/go-git.v4 v4.13.1
